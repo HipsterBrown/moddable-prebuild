@@ -1,11 +1,11 @@
-import core from "@actions/core";
+import * as core from "@actions/core";
 import { join, resolve } from "path";
 import { exec } from "@actions/exec";
-import artifact from "@actions/artifact";
-import glob from "@actions/glob";
+import { create as createArtifact } from "@actions/artifact";
+import * as glob from "@actions/glob";
 
 const MODDABLE_REPO = "https://github.com/Moddable-OpenSource/moddable";
-const client = artifact.create();
+const client = createArtifact();
 
 async function run() {
   try {
