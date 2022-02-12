@@ -38,7 +38,7 @@ async function run() {
 
     core.info(`Completed upload of ${result.artifactName} (${result.size})`);
   } catch (error) {
-    core.setFailed(error.message);
+    core.setFailed((error as Error).message);
   }
 }
 
