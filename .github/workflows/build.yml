@@ -1,0 +1,17 @@
+name: Build Moddable tooling
+
+on:
+  - push
+  - workflow_dispatch
+
+jobs:
+  build_tools:
+    runs-on: macos-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Clone and build tooling
+        uses: ./
+        id: prebuild

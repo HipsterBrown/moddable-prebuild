@@ -1,0 +1,32 @@
+{
+  "name": "moddable-prebuild",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.ts",
+  "scripts": {
+    "build": "ncc build index.ts -o dist --source-map --license licenses.txt"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HipsterBrown/moddable-prebuild.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "GPL-v3",
+  "bugs": {
+    "url": "https://github.com/HipsterBrown/moddable-prebuild/issues"
+  },
+  "homepage": "https://github.com/HipsterBrown/moddable-prebuild#readme",
+  "devDependencies": {
+    "@types/node": "^16.11.24",
+    "@vercel/ncc": "^0.33.2",
+    "typescript": "^4.5.5"
+  },
+  "dependencies": {
+    "@actions/artifact": "^0.6.1",
+    "@actions/core": "^1.6.0",
+    "@actions/exec": "^1.1.0",
+    "@actions/glob": "^0.2.0",
+    "@actions/io": "^1.1.1"
+  }
+}

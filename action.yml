@@ -1,0 +1,10 @@
+name: 'Moddable Prebuild'
+description: 'Generate release artifacts of Moddable tooling for each supported platform'
+inputs:
+  platform:  # id of input
+    description: 'Which platform to build'
+    required: true
+    default: 'mac'
+runs:
+  using: 'node16'
+  main: 'dist/index.js'
