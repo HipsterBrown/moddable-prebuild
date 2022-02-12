@@ -18,6 +18,8 @@ jobs:
           node-version: 16
           cache: npm
 
+      - run: npm run build
+
       - name: Clone and build tooling
         uses: ./
         id: prebuild
