@@ -3,7 +3,7 @@ import { pipeline } from "stream";
 import { promisify } from "util";
 import { createWriteStream } from "fs";
 import * as core from "@actions/core";
-import { join, resolve } from "path";
+import { join, resolve, relative } from "path";
 import { exec, getExecOutput } from "@actions/exec";
 import * as tar from "tar";
 
@@ -68,7 +68,10 @@ async function run() {
 
     const artifactName = `moddable-build-tools-${platform}-${arch}.tgz`;
 
-    await gzipBuild(process.env.MODDABLE, artifactName);
+    await gzipBuild(
+      relative(process.cwd(), process.env.MODDABLE),
+      artifactName
+    );
 
     const { stdout: tag } = await getExecOutput(
       "git",
