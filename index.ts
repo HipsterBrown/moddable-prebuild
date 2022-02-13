@@ -32,11 +32,11 @@ async function run() {
         "flex",
         "bison",
         "gperf",
-        "libglib2.0-dev",
-        "libgtk2.0-dev",
+        "libgtk-3-dev",
       ]);
-      process.env.CFLAGS = `pkg-config --cflags glib-2.0 --cflags gtk+-3.0`;
-      process.env.LDLIBS = `pkg-config --libs glib-2.0`;
+      // "libglib2.0-dev",
+      // process.env.CFLAGS = `pkg-config --cflags glib-2.0 --cflags gtk+-3.0`;
+      // process.env.LDLIBS = `pkg-config --libs glib-2.0`;
     }
 
     core.info(`Building tools for ${platform}`);
