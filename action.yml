@@ -1,10 +1,15 @@
 name: 'Moddable Prebuild'
 description: 'Generate release artifacts of Moddable tooling for each supported platform'
 inputs:
-  platform:  # id of input
-    description: 'Which platform to build'
+  commit:  # id of input
+    description: 'Which commit to build'
     required: true
-    default: 'mac'
+    default: 'latest'
+outputs:
+  tag:
+    description: 'Tag of build artifacts'
+  artifactName:
+    description: 'Name of artifact tarball'
 runs:
   using: 'node16'
   main: 'dist/index.js'

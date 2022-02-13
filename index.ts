@@ -1,20 +1,29 @@
 import { type as platformType } from "os";
+import { pipeline } from "stream";
+import { promisify } from "util";
+import { createWriteStream } from "fs";
 import * as core from "@actions/core";
 import { join, resolve } from "path";
-import { exec } from "@actions/exec";
-import { create as createArtifact } from "@actions/artifact";
-import * as glob from "@actions/glob";
+import { exec, getExecOutput } from "@actions/exec";
+import * as tar from "tar";
 
 const MODDABLE_REPO = "https://github.com/Moddable-OpenSource/moddable";
-const client = createArtifact();
+const pipe = promisify(pipeline);
 
 const PLATFORMS: Record<string, string> = {
   Darwin: "mac",
   Linux: "lin",
 };
 
+async function gzipBuild(input: string, output: string) {
+  const tarStream = tar.create({ gzip: true }, [input]);
+  const destination = createWriteStream(output);
+  await pipe(tarStream, destination);
+}
+
 async function run() {
   try {
+    const commit = core.getInput("commit");
     const platform = PLATFORMS[platformType()];
     const arch = process.arch;
 
@@ -35,9 +44,6 @@ async function run() {
         "gperf",
         "libgtk-3-dev",
       ]);
-      // "libglib2.0-dev",
-      // process.env.CFLAGS = `pkg-config --cflags glib-2.0 --cflags gtk+-3.0`;
-      // process.env.LDLIBS = `pkg-config --libs glib-2.0`;
     }
 
     core.info(`Building tools for ${platform}`);
@@ -46,6 +52,12 @@ async function run() {
     await exec("git", ["clone", MODDABLE_REPO]);
 
     process.env.MODDABLE = join(process.cwd(), "moddable");
+
+    if (commit && commit !== "latest") {
+      core.info(`Checking out commit: ${commit}`);
+      await exec("git", ["checkout", commit], { cwd: process.env.MODDABLE });
+    }
+
     const BUILD_DIR = resolve(
       process.env.MODDABLE,
       "build",
@@ -54,19 +66,16 @@ async function run() {
     );
     await exec("make", [], { cwd: BUILD_DIR });
 
-    const BIN_PATH = resolve(
-      process.env.MODDABLE,
-      "build",
-      "bin",
-      platform,
-      "release"
-    );
-    const globber = await glob.create(join(BIN_PATH, "*"));
-    const files = await globber.glob();
-    const artifactName = `moddable-build-tools-${platform}-${arch}`;
-    const result = await client.uploadArtifact(artifactName, files, BIN_PATH);
+    const artifactName = `moddable-build-tools-${platform}-${arch}.tgz`;
 
-    core.info(`Completed upload of ${result.artifactName} (${result.size})`);
+    await gzipBuild(process.env.MODDABLE, artifactName);
+
+    const { stdout: tag } = await getExecOutput("git", ["rev-parse", "HEAD"], {
+      cwd: process.env.MODDABLE,
+    });
+
+    core.setOutput("tag", tag.trim());
+    core.setOutput("artifactName", artifactName);
   } catch (error) {
     core.setFailed((error as Error).message);
   }

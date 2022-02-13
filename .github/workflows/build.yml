@@ -1,8 +1,17 @@
 name: Build Moddable tooling
 
 on:
-  - push
-  - workflow_dispatch
+  push:
+    tags:
+      - '*'
+  workflow_dispatch:
+    inputs:
+      commit:
+        description: 'Which commit to build for Moddable repo'
+        required: false
+        type: string
+        default: 'latest'
+
 
 jobs:
   build_tools:
@@ -28,11 +37,13 @@ jobs:
       - name: Clone and build tooling
         uses: ./
         id: prebuild
+        with:
+          commit: ${{ github.event.inputs.commit }}
 
       - name: Push release
         uses: softprops/action-gh-release@v1
         with:
-          name: v1
-          tag_name: v1
+          name: ${{ steps.prebuild.outputs.tag }}
+          tag_name: ${{ steps.prebuild.outputs.tag }}
           files: |
-            moddable/build/bin/**/release/*
+            ${{ steps.prebuild.outputs.artifactName }}

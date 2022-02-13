@@ -19,6 +19,7 @@
   "homepage": "https://github.com/HipsterBrown/moddable-prebuild#readme",
   "devDependencies": {
     "@types/node": "^16.11.24",
+    "@types/tar": "^6.1.1",
     "@vercel/ncc": "^0.33.2",
     "typescript": "^4.5.5"
   },
@@ -27,6 +28,7 @@
     "@actions/core": "^1.6.0",
     "@actions/exec": "^1.1.0",
     "@actions/glob": "^0.2.0",
-    "@actions/io": "^1.1.1"
+    "@actions/io": "^1.1.1",
+    "tar": "^6.1.11"
   }
 }
