@@ -35,6 +35,8 @@ async function run() {
         "libglib2.0-dev",
         "libgtk2.0-dev",
       ]);
+
+      await exec("sudo", ["updatedb"]);
     }
 
     core.info(`Building tools for ${platform}`);
