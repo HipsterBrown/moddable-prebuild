@@ -35,7 +35,7 @@ async function run() {
         "libglib2.0-dev",
         "libgtk2.0-dev",
       ]);
-      process.env.CFLAGS = `pkg-config --cflags glib-2.0`;
+      process.env.CFLAGS = `pkg-config --cflags glib-2.0 --cflags gtk+-3.0`;
       process.env.LDLIBS = `pkg-config --libs glib-2.0`;
     }
 
