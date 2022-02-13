@@ -6,7 +6,11 @@ on:
 
 jobs:
   build_tools:
-    runs-on: macos-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        os: [macos-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
     
     steps:
       - name: Checkout
@@ -24,3 +28,9 @@ jobs:
       - name: Clone and build tooling
         uses: ./
         id: prebuild
+
+      - name: Push release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            moddable/build/bin/**/release/*

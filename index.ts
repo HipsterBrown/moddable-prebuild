@@ -1,3 +1,4 @@
+import { type as platformType } from "os";
 import * as core from "@actions/core";
 import { join, resolve } from "path";
 import { exec } from "@actions/exec";
@@ -7,9 +8,15 @@ import * as glob from "@actions/glob";
 const MODDABLE_REPO = "https://github.com/Moddable-OpenSource/moddable";
 const client = createArtifact();
 
+const PLATFORMS: Record<string, string> = {
+  Darwin: "mac",
+  Linux: "lin",
+};
+
 async function run() {
   try {
-    const platform = core.getInput("platform");
+    const platform = PLATFORMS[platformType()];
+    const arch = process.arch;
     core.info(`Building tools for ${platform}`);
 
     core.info("Cloning Moddable-OpenSource/moddable repo");
@@ -33,7 +40,7 @@ async function run() {
     );
     const globber = await glob.create(join(BIN_PATH, "*"));
     const files = await globber.glob();
-    const artifactName = `moddable-build-tools-${platform}`;
+    const artifactName = `moddable-build-tools-${platform}-${arch}`;
     const result = await client.uploadArtifact(artifactName, files, BIN_PATH);
 
     core.info(`Completed upload of ${result.artifactName} (${result.size})`);
