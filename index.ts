@@ -32,6 +32,8 @@ async function run() {
         "flex",
         "bison",
         "gperf",
+        "libglib2.0-dev",
+        "libgtk2.0-dev",
       ]);
     }
 
