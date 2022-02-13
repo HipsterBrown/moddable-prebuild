@@ -20,7 +20,8 @@ async function run() {
 
     if (platform === "lin") {
       core.info("Installing dependencies...");
-      await exec("apt-get", [
+      await exec("sudo", [
+        "apt-get",
         "install",
         "--yes",
         "gcc",
