@@ -17,6 +17,23 @@ async function run() {
   try {
     const platform = PLATFORMS[platformType()];
     const arch = process.arch;
+
+    if (platform === "lin") {
+      core.info("Installing dependencies...");
+      await exec("apt-get", [
+        "install",
+        "--yes",
+        "gcc",
+        "git",
+        "wget",
+        "make",
+        "libncurses-dev",
+        "flex",
+        "bison",
+        "gperf",
+      ]);
+    }
+
     core.info(`Building tools for ${platform}`);
 
     core.info("Cloning Moddable-OpenSource/moddable repo");
