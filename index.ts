@@ -35,8 +35,8 @@ async function run() {
         "libglib2.0-dev",
         "libgtk2.0-dev",
       ]);
-
-      await exec("updatedb");
+      process.env.CFLAGS = `pkg-config --cflags glib-2.0`;
+      process.env.LDLIBS = `pkg-config --libs glib-2.0`;
     }
 
     core.info(`Building tools for ${platform}`);
