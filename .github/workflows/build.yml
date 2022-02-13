@@ -32,5 +32,7 @@ jobs:
       - name: Push release
         uses: softprops/action-gh-release@v1
         with:
+          name: v1
+          tag_name: v1
           files: |
             moddable/build/bin/**/release/*
