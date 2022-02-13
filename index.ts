@@ -70,9 +70,13 @@ async function run() {
 
     await gzipBuild(process.env.MODDABLE, artifactName);
 
-    const { stdout: tag } = await getExecOutput("git", ["rev-parse", "HEAD"], {
-      cwd: process.env.MODDABLE,
-    });
+    const { stdout: tag } = await getExecOutput(
+      "git",
+      ["rev-parse", "--short", "HEAD"],
+      {
+        cwd: process.env.MODDABLE,
+      }
+    );
 
     core.setOutput("tag", tag.trim());
     core.setOutput("artifactName", artifactName);
