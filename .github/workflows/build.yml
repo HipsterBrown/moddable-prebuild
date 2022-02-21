@@ -44,6 +44,6 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           name: ${{ steps.prebuild.outputs.tag }}
-          tag_name: ${{ steps.prebuild.outputs.tag }}
+          tag_name: latest
           files: |
             ${{ steps.prebuild.outputs.artifactName }}
