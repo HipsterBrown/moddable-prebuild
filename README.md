@@ -8,7 +8,7 @@ Based on environment images available for GitHub Actions:
 
 - [X] Linux (Ubuntu x86_64)
 - [X] MacOS (Intel x86_64)
-- [ ] MacOS (Apple Silicon arm64)
+- [-] MacOS (Apple Silicon arm64) (currently building locally)
 - [ ] Windows
 
 ## Releases
