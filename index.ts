@@ -61,7 +61,7 @@ async function run() {
       await exec("git", ["checkout", commit], { cwd: process.env.MODDABLE });
     }
 
-    core.info("Set BUILD_DIR variable");
+    core.info(`Set BUILD_DIR variable: ${process.env.MODDABLE}, ${platform}, ${platformType()}`);
     const BUILD_DIR = resolve(
       process.env.MODDABLE,
       "build",
