@@ -50,7 +50,7 @@ async function run() {
     core.info(`Building tools for ${platform}`);
 
     core.info("Cloning Moddable-OpenSource/moddable repo");
-    await exec("git", ["clone", MODDABLE_REPO], { shell: platform === 'win' });
+    await exec("git", ["clone", MODDABLE_REPO]);
     core.info("Cloning complete");
 
     process.env.MODDABLE = join(process.cwd(), "moddable");
