@@ -72,7 +72,7 @@ async function run() {
     if (platform === "win") {
       await exec("dir", [], { cwd: BUILD_DIR });
     }
-    await exec(platform === "win" ? "build.bat" : "make", [], { cwd: BUILD_DIR });
+    await exec(platform === "win" ? `./build.bat` : "make", [], { cwd: BUILD_DIR });
 
     const artifactName = `moddable-build-tools-${platform}-${arch}.tgz`;
 
