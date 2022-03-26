@@ -13,7 +13,7 @@ const pipe = promisify(pipeline);
 const PLATFORMS: Record<string, string> = {
   darwin: "mac",
   linux: "lin",
-  win32: "win"
+  windows_nt: "win"
 };
 
 async function gzipBuild(input: string, output: string) {
