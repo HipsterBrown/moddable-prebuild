@@ -11,8 +11,9 @@ const MODDABLE_REPO = "https://github.com/Moddable-OpenSource/moddable";
 const pipe = promisify(pipeline);
 
 const PLATFORMS: Record<string, string> = {
-  Darwin: "mac",
-  Linux: "lin",
+  darwin: "mac",
+  linux: "lin",
+  windows_nt: "win"
 };
 
 async function gzipBuild(input: string, output: string) {
@@ -24,7 +25,7 @@ async function gzipBuild(input: string, output: string) {
 async function run() {
   try {
     const commit = core.getInput("commit");
-    const platform = PLATFORMS[platformType()];
+    const platform = PLATFORMS[platformType().toLowerCase()];
     const arch = process.arch;
 
     if (platform === "lin") {
@@ -50,21 +51,29 @@ async function run() {
 
     core.info("Cloning Moddable-OpenSource/moddable repo");
     await exec("git", ["clone", MODDABLE_REPO]);
+    core.info("Cloning complete");
 
     process.env.MODDABLE = join(process.cwd(), "moddable");
+    core.info(`Set MODDABLE env variable: ${process.env.MODDABLE}`);
 
     if (commit && commit !== "latest") {
       core.info(`Checking out commit: ${commit}`);
       await exec("git", ["checkout", commit], { cwd: process.env.MODDABLE });
     }
 
+    core.info(`Set BUILD_DIR variable`);
     const BUILD_DIR = resolve(
       process.env.MODDABLE,
       "build",
       "makefiles",
       platform
     );
-    await exec("make", [], { cwd: BUILD_DIR });
+    core.info(`Building tools in ${BUILD_DIR}`);
+    if (platform === "win") {
+      await exec(`./build.bat`, [], { cwd: BUILD_DIR });
+    } else {
+      await exec("make", [], { cwd: BUILD_DIR });
+    }
 
     const artifactName = `moddable-build-tools-${platform}-${arch}.tgz`;
 
