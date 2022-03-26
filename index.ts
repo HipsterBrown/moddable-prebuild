@@ -51,20 +51,24 @@ async function run() {
 
     core.info("Cloning Moddable-OpenSource/moddable repo");
     await exec("git", ["clone", MODDABLE_REPO], { shell: platform === 'win' });
+    core.info("Cloning complete");
 
     process.env.MODDABLE = join(process.cwd(), "moddable");
+    core.info("Set MODDABLE env variable");
 
     if (commit && commit !== "latest") {
       core.info(`Checking out commit: ${commit}`);
       await exec("git", ["checkout", commit], { cwd: process.env.MODDABLE });
     }
 
+    core.info("Set BUILD_DIR variable");
     const BUILD_DIR = resolve(
       process.env.MODDABLE,
       "build",
       "makefiles",
       platform
     );
+    core.info(`Building tools in ${BUILD_DIR}`);
     await exec("make", [], { cwd: BUILD_DIR });
 
     const artifactName = `moddable-build-tools-${platform}-${arch}.tgz`;
