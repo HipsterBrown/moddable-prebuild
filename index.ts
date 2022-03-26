@@ -69,7 +69,9 @@ async function run() {
       platform
     );
     core.info(`Building tools in ${BUILD_DIR}`);
-    await exec("dir", [], { cwd: BUILD_DIR });
+    if (platform === "win") {
+      await exec("dir", [], { cwd: BUILD_DIR });
+    }
     await exec(platform === "win" ? "build" : "make", [], { cwd: BUILD_DIR });
 
     const artifactName = `moddable-build-tools-${platform}-${arch}.tgz`;
