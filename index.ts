@@ -61,7 +61,7 @@ async function run() {
       await exec("git", ["checkout", commit], { cwd: process.env.MODDABLE });
     }
 
-    core.info(`Set BUILD_DIR variable: ${process.env.MODDABLE}, ${platform}, ${platformType()}`);
+    core.info(`Set BUILD_DIR variable`);
     const BUILD_DIR = resolve(
       process.env.MODDABLE,
       "build",
@@ -69,7 +69,7 @@ async function run() {
       platform
     );
     core.info(`Building tools in ${BUILD_DIR}`);
-    await exec("make", [], { cwd: BUILD_DIR });
+    await exec(platform === "win" ? "build" : "make", [], { cwd: BUILD_DIR });
 
     const artifactName = `moddable-build-tools-${platform}-${arch}.tgz`;
 
