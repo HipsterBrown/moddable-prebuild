@@ -11,8 +11,9 @@ const MODDABLE_REPO = "https://github.com/Moddable-OpenSource/moddable";
 const pipe = promisify(pipeline);
 
 const PLATFORMS: Record<string, string> = {
-  Darwin: "mac",
-  Linux: "lin",
+  darwin: "mac",
+  linux: "lin",
+  win32: "win"
 };
 
 async function gzipBuild(input: string, output: string) {
@@ -24,7 +25,7 @@ async function gzipBuild(input: string, output: string) {
 async function run() {
   try {
     const commit = core.getInput("commit");
-    const platform = PLATFORMS[platformType()];
+    const platform = PLATFORMS[platformType().toLowerCase()];
     const arch = process.arch;
 
     if (platform === "lin") {

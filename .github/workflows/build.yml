@@ -2,6 +2,8 @@ name: Build Moddable tooling
 
 on:
   push:
+    branches:
+      - 'windows-support'
     tags:
       - '*'
   workflow_dispatch:
@@ -18,7 +20,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        os: [macos-latest, ubuntu-latest]
+        os: [macos-latest, ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     
     steps:
