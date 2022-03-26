@@ -70,10 +70,12 @@ async function run() {
     );
     core.info(`Building tools in ${BUILD_DIR}`);
     if (platform === "win") {
-      await exec("vcvarsall.bat x86_x64", [], { cwd: BUILD_DIR });
+      // await exec("vcvarsall.bat x86_x64", [], { cwd: BUILD_DIR });
       // process.env.COMSPEC = "devenv.exe";
+      await exec(`./build.bat`, [], { cwd: BUILD_DIR });
+    } else {
+      await exec("make", [], { cwd: BUILD_DIR });
     }
-    await exec(platform === "win" ? `./build.bat` : "make", [], { cwd: BUILD_DIR });
 
     const artifactName = `moddable-build-tools-${platform}-${arch}.tgz`;
 
