@@ -54,7 +54,7 @@ async function run() {
     core.info("Cloning complete");
 
     process.env.MODDABLE = join(process.cwd(), "moddable");
-    core.info("Set MODDABLE env variable");
+    core.info(`Set MODDABLE env variable: ${process.env.MODDABLE}`);
 
     if (commit && commit !== "latest") {
       core.info(`Checking out commit: ${commit}`);
