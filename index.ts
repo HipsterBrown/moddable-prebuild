@@ -70,7 +70,7 @@ async function run() {
     );
     core.info(`Building tools in ${BUILD_DIR}`);
     if (platform === "win") {
-      await exec("echo $env:PATH", [], { cwd: BUILD_DIR });
+      await exec("echo %PATH%", [], { cwd: BUILD_DIR });
     }
     await exec(platform === "win" ? `./build.bat` : "make", [], { cwd: BUILD_DIR });
 
