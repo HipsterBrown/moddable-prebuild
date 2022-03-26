@@ -70,7 +70,8 @@ async function run() {
     );
     core.info(`Building tools in ${BUILD_DIR}`);
     if (platform === "win") {
-      await exec("echo %PATH%", [], { cwd: BUILD_DIR });
+      await exec("%PATH%", [], { cwd: BUILD_DIR });
+      process.env.COMSPEC = "pwsh.EXE";
     }
     await exec(platform === "win" ? `./build.bat` : "make", [], { cwd: BUILD_DIR });
 
