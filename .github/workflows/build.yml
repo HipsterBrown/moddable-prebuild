@@ -28,7 +28,7 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
       - name: Get latest Moddable commit
         id: latest_commit
-        run: echo "::set-output name=commit::$(gh api repos/Moddable-OpenSource/moddable/commits --jq '.[0].sha' | cut -c1-7)"
+        run: echo "::set-output name=commit::$(gh api repos/Moddable-OpenSource/moddable/commits --jq '.[0].sha' | cut -c1-8)"
         env:
           GITHUB_TOKEN: ${{ github.token }}
   build_tools:
