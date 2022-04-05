@@ -39,6 +39,8 @@ jobs:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
+    outputs:
+      tag: ${{ steps.prebuild.outputs.tag }}
     
     steps:
       - name: Checkout
@@ -68,3 +70,15 @@ jobs:
           tag_name: latest
           files: |
             ${{ steps.prebuild.outputs.artifactName }}
+  create_release_issue:
+    needs: build_tools
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Create release issue
+        run: |
+          gh issue create -a "@me" -t "chore(release): build $TAG" -l build -b "Arm64 prebuild for macos platform required"
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          TAG: ${{ needs.build_tools.outputs.tag }}
