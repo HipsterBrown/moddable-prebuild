@@ -78,7 +78,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Create release issue
         run: |
-          gh issue create -a "@me" -t "chore(release): build $TAG" -l build -b "Arm64 prebuild for macos platform required"
+          gh issue create -a "hipsterbrown" -t "chore(release): build $TAG" -l build -b "Arm64 prebuild for macos platform required"
         env:
-          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAG: ${{ needs.build_tools.outputs.tag }}
