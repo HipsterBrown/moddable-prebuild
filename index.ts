@@ -13,7 +13,7 @@ const pipe = promisify(pipeline);
 const PLATFORMS: Record<string, string> = {
   darwin: "mac",
   linux: "lin",
-  windows_nt: "win"
+  windows_nt: "win",
 };
 
 async function gzipBuild(input: string, output: string) {
@@ -50,7 +50,15 @@ async function run() {
     core.info(`Building tools for ${platform}`);
 
     core.info("Cloning Moddable-OpenSource/moddable repo");
-    await exec("git", ["clone", MODDABLE_REPO]);
+    await exec("git", [
+      "clone",
+      MODDABLE_REPO,
+      "--depth",
+      "1",
+      "--single-branch",
+      "--branch",
+      "public",
+    ]);
     core.info("Cloning complete");
 
     process.env.MODDABLE = join(process.cwd(), "moddable");
