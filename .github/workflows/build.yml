@@ -20,7 +20,7 @@ jobs:
       commit: ${{ steps.latest_commit.outputs.commit }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Get latest release
         id: latest_release
         run: echo "::set-output name=release::$(gh release view latest --json name --jq '.name')"
@@ -44,12 +44,12 @@ jobs:
     
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
           cache: npm
 
       - run: npm ci
@@ -75,7 +75,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Create release issue
         run: |
           gh issue create -a "hipsterbrown" -t "chore(release): build $TAG" -l build -b "Arm64 prebuild for macos platform required"
